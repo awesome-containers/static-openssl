@@ -1,6 +1,6 @@
-# Statically linked openssl
+# Statically linked OpenSSL
 
-Statically linked **openssl** container image with [Bash]
+Statically linked **OpenSSL** container image with [Bash]
 
 > 17M
 
@@ -12,7 +12,7 @@ docker.io/awesomecontainers/static-openssl:latest
 docker.io/awesomecontainers/static-openssl:3.0.8
 ```
 
-Slim statically linked **openssl** container image with [Bash] stripped and
+Slim statically linked **OpenSSL** container image with [Bash] stripped and
 packaged with [UPX]
 
 > 1.7M
