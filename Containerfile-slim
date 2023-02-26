@@ -1,0 +1,28 @@
+# https://github.com/awesome-containers/static-bash
+ARG STATIC_BASH_VERSION=5.2.15
+ARG STATIC_OPENSSL_VERSION=3.0.8
+
+FROM ghcr.io/awesome-containers/static-openssl:$STATIC_OPENSSL_VERSION AS static-openssl
+FROM ghcr.io/awesome-containers/alpine-build-essential:3.17 AS build
+
+WORKDIR /src/openssl
+COPY --from=static-openssl /bin/openssl ./
+
+RUN set -xeu; \
+    strip -s -R .comment -R .gnu.version --strip-unneeded openssl; \
+    upx --no-progress --no-color openssl; \
+    upx -t --no-progress --no-color openssl; \
+    ! ldd openssl && :; \
+    chmod -cR 755 openssl; \
+    chown -cR 0:0 openssl; \
+    ./openssl version
+
+# slim static openssl image
+FROM ghcr.io/awesome-containers/static-bash:$STATIC_BASH_VERSION-slim AS static-bash
+
+COPY --from=build /src/openssl/openssl /bin/openssl
+ENV OPENSSL_CONF=/etc/openssl.cnf
+COPY --from=static-openssl /etc/openssl.cnf /etc/openssl.cnf
+ENV SSL_CERT_DIR=/etc/ssl/certs
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
