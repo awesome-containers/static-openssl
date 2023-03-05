@@ -1,15 +1,24 @@
 # https://github.com/awesome-containers/static-bash
 ARG STATIC_BASH_VERSION=5.2.15
-ARG STATIC_OPENSSL_VERSION=3.0.8
+ARG STATIC_BASH_IMAGE=ghcr.io/awesome-containers/static-bash
 
-FROM ghcr.io/awesome-containers/static-openssl:$STATIC_OPENSSL_VERSION AS static-openssl
-FROM ghcr.io/awesome-containers/alpine-build-essential:3.17 AS build
+# https://github.com/awesome-containers/static-openssl
+ARG STATIC_OPENSSL_VERSION=3.0.8
+ARG STATIC_OPENSSL_IMAGE=ghcr.io/awesome-containers/static-openssl
+
+# https://github.com/awesome-containers/alpine-build-essential
+ARG BUILD_ESSENTIAL_VERSION=3.17
+ARG BUILD_ESSENTIAL_IMAGE=ghcr.io/awesome-containers/alpine-build-essential
+
+
+FROM $STATIC_BASH_IMAGE:$STATIC_BASH_VERSION-slim AS static-bash
+FROM $STATIC_OPENSSL_IMAGE:$STATIC_OPENSSL_VERSION AS static-openssl
+FROM $BUILD_ESSENTIAL_IMAGE:$BUILD_ESSENTIAL_VERSION AS build
 
 WORKDIR /src/openssl
 COPY --from=static-openssl /bin/openssl ./
 
 RUN set -xeu; \
-    strip -s -R .comment -R .gnu.version --strip-unneeded openssl; \
     upx --no-progress --no-color openssl; \
     upx -t --no-progress --no-color openssl; \
     ! ldd openssl && :; \
@@ -18,7 +27,7 @@ RUN set -xeu; \
     ./openssl version
 
 # slim static openssl image
-FROM ghcr.io/awesome-containers/static-bash:$STATIC_BASH_VERSION-slim AS static-bash
+FROM static-bash
 
 COPY --from=build /src/openssl/openssl /bin/openssl
 ENV OPENSSL_CONF=/etc/openssl.cnf

@@ -1,8 +1,8 @@
 # Statically linked OpenSSL
 
-Statically linked **OpenSSL** container image with [Bash]
+Statically linked [OpenSSL] container image with [Bash]
 
-> 17M
+> 5,3M (1,1M bash)
 
 ```bash
 ghcr.io/awesome-containers/static-openssl:latest
@@ -12,10 +12,9 @@ docker.io/awesomecontainers/static-openssl:latest
 docker.io/awesomecontainers/static-openssl:3.0.8
 ```
 
-Slim statically linked **OpenSSL** container image with [Bash] stripped and
-packaged with [UPX]
+Slim statically linked [OpenSSL] container image with [Bash] packaged with [UPX]
 
-> 1.7M
+> 2,5M (578K bash)
 
 ```bash
 ghcr.io/awesome-containers/static-openssl:latest-slim
@@ -25,8 +24,23 @@ docker.io/awesomecontainers/static-openssl:latest-slim
 docker.io/awesomecontainers/static-openssl:3.0.8-slim
 ```
 
-* <https://www.openssl.org/>
-* <https://github.com/openssl/openss/>
-
+[OpenSSL]: https://www.openssl.org/
 [Bash]: https://github.com/awesome-containers/static-bash
 [UPX]: https://upx.github.io/
+
+<!--
+```bash
+image="localhost/${PWD##*/}"
+
+podman build -t "$image:latest" .
+podman build -t "$image:latest-slim" -f Containerfile-slim \
+  --build-arg STATIC_OPENSSL_IMAGE="$image" \
+  --build-arg STATIC_OPENSSL_VERSION=latest --no-cache .
+
+echo "$image:latest"
+podman inspect "$image:latest" | jq '.[].Size' | numfmt --to=iec
+echo "$image:latest-slim"
+podman inspect "$image:latest-slim" | jq '.[].Size' | numfmt --to=iec
+
+```
+-->
