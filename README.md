@@ -2,26 +2,26 @@
 
 Statically linked [OpenSSL] container image with [Bash]
 
-> 5,3M (1,1M bash)
+> 6,0M (1,1M bash)
 
 ```bash
 ghcr.io/awesome-containers/static-openssl:latest
-ghcr.io/awesome-containers/static-openssl:3.0.8
+ghcr.io/awesome-containers/static-openssl:3.1.0
 
 docker.io/awesomecontainers/static-openssl:latest
-docker.io/awesomecontainers/static-openssl:3.0.8
+docker.io/awesomecontainers/static-openssl:3.1.0
 ```
 
 Slim statically linked [OpenSSL] container image with [Bash] packaged with [UPX]
 
-> 2,5M (578K bash)
+> 2,6M (578K bash)
 
 ```bash
 ghcr.io/awesome-containers/static-openssl:latest-slim
-ghcr.io/awesome-containers/static-openssl:3.0.8-slim
+ghcr.io/awesome-containers/static-openssl:3.1.0-slim
 
 docker.io/awesomecontainers/static-openssl:latest-slim
-docker.io/awesomecontainers/static-openssl:3.0.8-slim
+docker.io/awesomecontainers/static-openssl:3.1.0-slim
 ```
 
 [OpenSSL]: https://www.openssl.org/

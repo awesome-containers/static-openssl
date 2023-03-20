@@ -13,8 +13,8 @@ FROM $BUILD_ESSENTIAL_IMAGE:$BUILD_ESSENTIAL_VERSION AS build
 # hadolint ignore=DL3018
 RUN apk add --no-cache linux-headers
 
-# https://ftp.gnu.org/gnu/openssl/
-ARG OPENSSL_VERSION=3.0.8
+# https://github.com/openssl/openssl
+ARG OPENSSL_VERSION=3.1.0
 
 WORKDIR /src/openssl
 RUN set -xeu; \
